@@ -508,14 +508,14 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Game = __webpack_require__(19);
+
+var _Game2 = _interopRequireDefault(_Game);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'Tic Tac Toe'
-  );
+  return _react2.default.createElement(_Game2.default, null);
 };
 
 exports.default = App;
@@ -29195,6 +29195,222 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Square = __webpack_require__(20);
+
+var _Square2 = _interopRequireDefault(_Square);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var style = {
+    border: '4px solid darkblue',
+    borderRadius: '10px',
+    width: '250px',
+    height: '250px',
+    margin: '0 auto',
+    display: 'grid',
+    gridTemplate: 'repeat(3, 1fr) / repeat(3, 1fr)',
+    marginTop: '50px'
+};
+
+var Board = function Board(_ref) {
+    var squares = _ref.squares,
+        _onClick = _ref.onClick;
+    return _react2.default.createElement(
+        'div',
+        { style: style },
+        squares.map(function (square, i) {
+            return _react2.default.createElement(_Square2.default, { key: i, value: square, onClick: function onClick() {
+                    return _onClick(i);
+                } });
+        })
+    );
+};
+
+exports.default = Board;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _helpers = __webpack_require__(21);
+
+var _Board = __webpack_require__(18);
+
+var _Board2 = _interopRequireDefault(_Board);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var styles = {
+    width: '200px',
+    margin: '20px auto'
+};
+
+var Game = function Game() {
+    var _useState = (0, _react.useState)(Array(9).fill(null)),
+        _useState2 = _slicedToArray(_useState, 2),
+        board = _useState2[0],
+        setBoard = _useState2[1];
+
+    var _useState3 = (0, _react.useState)(true),
+        _useState4 = _slicedToArray(_useState3, 2),
+        xIsNext = _useState4[0],
+        setXisNext = _useState4[1];
+
+    var winner = (0, _helpers.calculateWinner)(board);
+
+    var handleClick = function handleClick(i) {
+        var boardCopy = [].concat(_toConsumableArray(board));
+        // If user click an occupied square or if game is won, return
+        if (winner || boardCopy[i]) return;
+        // Put an X or an O in the clicked square
+        boardCopy[i] = xIsNext ? 'X' : 'O';
+        setBoard(boardCopy);
+        setXisNext(!xIsNext);
+    };
+
+    var jumpTo = function jumpTo() {};
+
+    var renderMoves = function renderMoves() {
+        return _react2.default.createElement(
+            'button',
+            { style: { marginLeft: '31px', color: 'aqua', background: 'black', padding: '10px' }, onClick: function onClick() {
+                    return setBoard(Array(9).fill(null));
+                } },
+            'Start Game'
+        );
+    };
+
+    return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_Board2.default, { squares: board, onClick: handleClick }),
+        _react2.default.createElement(
+            'div',
+            { style: styles },
+            _react2.default.createElement(
+                'p',
+                { style: { fontWeight: "800", marginLeft: '21px' } },
+                winner ? 'Winner: ' + winner : 'Next Player: ' + (xIsNext ? 'X' : 'O')
+            ),
+            renderMoves()
+        )
+    );
+};
+
+exports.default = Game;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var style = {
+    background: 'lightblue',
+    border: '2px solid darkblue',
+    fontSize: '30px',
+    fontWeight: '800',
+    cursor: 'pointer',
+    outline: 'none'
+}; /* Example of Undestructured Props */
+// const props = {
+//     onClick: () => "function",
+//     value: "X"
+// }
+
+// const {value} = props;
+
+// const Square = (props) => (
+//     <button onClick={props.onClick}>
+//         {props.value}
+//     </button>
+// )
+
+// /* Example of Destructured Props*/
+
+
+var Square = function Square(_ref) {
+    var value = _ref.value,
+        onClick = _ref.onClick;
+    return _react2.default.createElement(
+        'button',
+        { style: style, onClick: onClick },
+        value
+    );
+};
+
+exports.default = Square;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+exports.calculateWinner = calculateWinner;
+function calculateWinner(squares) {
+  var lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+  for (var i = 0; i < lines.length; i++) {
+    var _lines$i = _slicedToArray(lines[i], 3),
+        a = _lines$i[0],
+        b = _lines$i[1],
+        c = _lines$i[2];
+
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
 
 /***/ })
 /******/ ]);
